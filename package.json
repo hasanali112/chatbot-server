@@ -1,0 +1,28 @@
+{
+  "name": "chat-bot-server",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "author": "Hasan",
+  "license": "ISC",
+  "description": "This is chat bot application using langchain",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@langchain/core": "^0.3.58",
+    "@langchain/google-genai": "^0.2.11",
+    "@langchain/langgraph": "^0.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "langchain": "^0.3.28",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
