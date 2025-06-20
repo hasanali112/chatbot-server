@@ -14,6 +14,12 @@
     "@ai-sdk/deepseek": "^0.2.14",
     "@langchain/community": "^0.3.46",
     "@langchain/core": "^0.3.59",
-    "@langchain/langgraph": "^0.3.4"
+    "@langchain/deepseek": "^0.0.2",
+    "@langchain/groq": "^0.2.3",
+    "@langchain/langgraph": "^0.3.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "zod": "^3.25.67"
   }
 }
