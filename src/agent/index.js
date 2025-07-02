@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { tool } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
 import { z } from "zod";
+import chatbot from "./bot.js";
 
 dotenv.config();
 
@@ -46,6 +47,19 @@ const fetchAllProductsTool = tool(
   }
 );
 
+const chatbotTool = tool(
+  async ({ message }) => {
+    return chatbot(message);
+  },
+  {
+    name: "general_chatbot",
+    description: "Use for general conversation, greetings, and questions.",
+    schema: z.object({
+      message: z.string().describe("The user's message to the chatbot."),
+    }),
+  }
+);
+
 const model = new ChatGroq({
   model: "llama3-8b-8192",
   groqApiKey: process.env.GROQ_API_KEY,
@@ -55,13 +69,14 @@ const checkpointSaver = new MemorySaver();
 
 export const agent = createReactAgent({
   llm: model,
-  tools: [fetchAllProductsTool],
+  tools: [fetchAllProductsTool, chatbotTool],
   checkpointSaver,
   systemMessage: `
-    You are a product price analyst. When asked about pricing:
-    1. ALWAYS use get_all_products_with_prices first
-    2. Parse the "NAME|PRICE" data to find requested info
-    3. For "NO_PRODUCTS_FOUND", respond accordingly
-    4. NEVER guess prices or availability
+    You are a helpful assistant. For product price-related questions, use the 'get_all_products_with_prices' tool. For all other general conversation, use the 'general_chatbot' tool.
+    1. For pricing questions, ALWAYS use get_all_products_with_prices first.
+    2. Parse the "NAME|PRICE" data to find requested info.
+    3. For "NO_PRODUCTS_FOUND", respond accordingly.
+    4. NEVER guess prices or availability.
+    5. For general conversation, use the general_chatbot.
   `,
 });
